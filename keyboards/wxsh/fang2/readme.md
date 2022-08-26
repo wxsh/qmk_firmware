@@ -1,12 +1,14 @@
 # fang2
 
-![fang2](imgur.com image replace me!)
+![fang2](https://i.imgur.com/eQ7NQiN.jpg)
 
 *A short description of the keyboard/project*
 
-* Keyboard Maintainer: [Andreas Karlsvik](https://github.com/yourusername)
-* Hardware Supported: *The PCBs, controllers supported*
-* Hardware Availability: *Links to where you can find this hardware*
+* Keyboard Maintainer: [Andreas Karlsvik](https://github.com/wxsh)
+* Hardware Supported: Personal PCB's
+* Hardware Availability: 
+
+![no](https://i.imgur.com/f2xwmvB.gif)
 
 Make example for this keyboard (after setting up your build environment):
 
