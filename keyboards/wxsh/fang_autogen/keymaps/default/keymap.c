@@ -1,4 +1,4 @@
-/* Copyright 2021 Andreas Karlsvik
+/* Copyright 2022 Andreas Karlsvik
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,13 +18,6 @@
 #include "keymap_norwegian.h"
 #include <stdio.h>
 
-#ifdef OLED_ENABLE
- #include "oled.c"
-#endif
-
-#ifdef ENCODER_ENABLE
-    #include "fang_encoder.c"
-#endif
 
 enum layer {
     _QWERTY,
@@ -33,6 +26,14 @@ enum layer {
     _RAISE,
     _ADJUST
 };
+
+#ifdef OLED_ENABLE
+ #include "fang_oled.c"
+#endif
+
+#ifdef ENCODER_ENABLE
+    #include "fang_encoder.c"
+#endif
 
 enum custom_keycodes {
     KC_QWERTY = SAFE_RANGE,
@@ -50,7 +51,8 @@ enum custom_keycodes {
     KC_LCBRMFIX,
     KC_RCBRMFIX,
     KC_PIPEMFIX,
-    KC_BSLSMFIX
+    KC_BSLSMFIX,
+    KC_DLRMFIX
   };
 
 #define KC_LOWER MO(_LOWER)
@@ -72,39 +74,39 @@ enum custom_keycodes {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_QWERTY] = LAYOUT_fang(
-                 KC_ESC,   KC_1,    KC_2,    KC_3,    KC_4,     KC_5,  KC_A,                                        KC_C,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    NO_PLUS,
-                 KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,     KC_T,  KC_B,                                        KC_D,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    NO_ARNG,
-        	     KC_LGUI,  KC_A,    KC_S,    KC_D,    KC_F,     KC_G,  KC_C,                                        KC_E,    KC_H,    KC_J,    KC_K,    KC_L,    NO_OSTR, NO_AE,
-                 KC_LSFT,  KC_Z,    KC_X,    KC_C,    KC_V,     KC_B,  KC_MUTE,  KC_LGUI,                  KC_INS,  XXXXXXX, KC_N,    KC_M,    KC_COMM, KC_DOT,  NO_MINS, NO_QUOT,
-                                             KC_LALT, KC_LCTRL, LTAPL, KC_ENT,   KC_LGUI,                  XXXXXXX, KC_SPC,  LTAPR,   KC_DEL,  KC_PSCR
+                 QK_GESC,  KC_1,    KC_2,    KC_3,    KC_4,     KC_5,  KC_MUTE,                                        XXXXXXX, KC_6,   KC_7,     KC_8,    KC_9,    KC_0,    NO_PLUS,
+                 KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,     KC_T,  KC_HOME,                                        KC_PGUP, KC_Y,   KC_U,     KC_I,    KC_O,    KC_P,    NO_ARNG,
+        	     KC_LGUI,  KC_A,    KC_S,    KC_D,    KC_F,     KC_G,  KC_END,                                         KC_PGDN, KC_H,   KC_J,     KC_K,    KC_L,    NO_OSTR, NO_AE,
+                 KC_LSFT,  KC_Z,    KC_X,    KC_C,    KC_V,     KC_B,  KC_MUTE,  KC_HYPR,                     KC_INS,  XXXXXXX, KC_N,   KC_M,     KC_COMM, KC_DOT,  NO_MINS, NO_QUOT,
+                                             KC_LALT, KC_LCTRL, LTAPL, KC_ENT,   XXXXXXX,                     XXXXXXX, KC_SPC,  LTAPR,  KC_RCTRL, KC_RALT
     ),
     [_LOWER] = LAYOUT_fang(
                  NO_ACUT, KC_F1,   KC_F2,     KC_F3,   KC_F4,       KC_F5,       _______, 		                   _______, KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,      NO_QUES,
-                 _______, KC_F11,  KC_F12,    XXXXXXX, XXXXXXX,     XXXXXXX,     _______,                          _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,     XXXXXXX,
+                 _______, XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX,     KC_DLRMFIX,  KC_F11,                           KC_F12,  NO_TILD, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,     XXXXXXX,
         	     _______, NO_EXLM, KC_ATMFIX, NO_HASH, KC_LESSMFIX, KC_GRTRMFIX, _______,                          _______, NO_LPRN, NO_RPRN, NO_ASTR, NO_CIRC, KC_PIPEMFIX, KC_APOSMFIX,
                  _______, NO_EQL,  NO_MINS,   NO_PLUS, KC_LCBRMFIX, KC_RCBRMFIX, _______, _______,        _______, _______, NO_LBRC, NO_RBRC, NO_SCLN, NO_COLN, KC_BSLSMFIX, _______,
                                               _______, _______,     _______,     _______, _______,        _______, _______, _______, _______, _______
     ),
     [_RAISE] = LAYOUT_fang(
                  _______, _______, _______, _______, _______,  _______, _______,                          _______, _______, _______,  _______, _______,  _______,  NO_BSLS,
-                 _______, KC_INS,  KC_PSCR, KC_APP,  XXXXXXX,  XXXXXXX, _______, 		                  _______, KC_PGUP, KC_PRVWD, KC_UP,   KC_NXTWD, KC_DLINE, KC_BSPC,
-        	     _______, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,  KC_CAPS, _______,                          _______, KC_PGDN, KC_LEFT,  KC_DOWN, KC_RGHT,  KC_DEL,   KC_BSPC,
+                 _______, KC_INS,  KC_PSCR, KC_APP,  XXXXXXX,  XXXXXXX, _______, 		                  _______, XXXXXXX, KC_PRVWD, KC_UP,   KC_NXTWD, KC_DLINE, KC_BSPC,
+        	     _______, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,  KC_CAPS, _______,                          _______, XXXXXXX, KC_LEFT,  KC_DOWN, KC_RGHT,  KC_DEL,   KC_BSPC,
                  _______, KC_UNDO, KC_CUT,  KC_COPY, KC_PASTE, XXXXXXX, _______, _______,        _______, _______, XXXXXXX, KC_LSTRT, XXXXXXX, KC_LEND,  XXXXXXX,  _______,
                                             _______, _______,  _______, _______, _______,        _______, _______, _______, _______, _______
     ),
     [_ADJUST] = LAYOUT_fang(
-                 XXXXXXX, XXXXXXX, XXXXXXX,   XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX,                            XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                 QK_REBOOT,   XXXXXXX, KC_QWERTY, KC_GAMING, CG_TOGG, XXXXXXX, XXXXXXX, 		                   XXXXXXX, XXXXXXX, XXXXXXX, KC_MS_UP, XXXXXXX, XXXXXXX, XXXXXXX,
-        	     XXXXXXX, XXXXXXX, CG_TOGG,   XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX,                            XXXXXXX, XXXXXXX, KC_MS_LEFT, KC_MS_DOWN, KC_MS_RIGHT, XXXXXXX, XXXXXXX,
-                 XXXXXXX, XXXXXXX, XXXXXXX,   XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,          XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                              _______,   _______, _______, KC_MS_BTN1, _______,          _______, KC_MS_BTN2, _______, _______, _______
+                 XXXXXXX,   XXXXXXX, XXXXXXX,   XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX,                               XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,     XXXXXXX, XXXXXXX,
+                 QK_REBOOT, XXXXXXX, KC_QWERTY, KC_GAMING, XXXXXXX, XXXXXXX, XXXXXXX, 		                        XXXXXXX,    XXXXXXX,    XXXXXXX,    KC_MS_UP,   XXXXXXX,     XXXXXXX, XXXXXXX,
+        	     XXXXXXX,   XXXXXXX, CG_TOGG,   XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX,                               XXXXXXX,    XXXXXXX,    KC_MS_LEFT, KC_MS_DOWN, KC_MS_RIGHT, XXXXXXX, XXXXXXX,
+                 XXXXXXX,   XXXXXXX, XXXXXXX,   XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,             XXXXXXX, XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,     XXXXXXX, XXXXXXX,
+                                             _______,   _______, _______, KC_MS_BTN1, _______,             _______, KC_MS_BTN2, _______, _______, _______
     ),
     [_GAMING] = LAYOUT_fang(
-                 KC_ESC,   KC_1,    KC_2,    KC_3,    KC_4,     KC_5,  KC_A,                                        KC_C,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    NO_PLUS,
-                 KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,     KC_T,  KC_B,                                        KC_D,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    NO_ARNG,
-        	     XXXXXXX,  KC_A,    KC_S,    KC_D,    KC_F,     KC_G,  KC_C,                                        KC_E,    KC_H,    KC_J,    KC_K,    KC_L,    NO_OSTR, NO_AE,
-                 KC_LSFT,  KC_Z,    KC_X,    KC_C,    KC_V,     KC_B,  KC_MUTE,  KC_LGUI,                  KC_INS,  XXXXXXX, KC_N,    KC_M,    KC_COMM, KC_DOT,  NO_MINS, NO_QUOT,
-                                             KC_LALT, KC_LCTRL, LTAPL, KC_SPC,   XXXXXXX,                  XXXXXXX, KC_ENT,  LTAPR,   KC_DEL,  KC_PSCR
+                 KC_ESC,   KC_1,    KC_2,    KC_3,    KC_4,     KC_5,  KC_MUTE,                                     KC_C,    KC_6,    KC_7,     KC_8,    KC_9,    KC_0,    NO_PLUS,
+                 KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,     KC_T,  KC_HOME,                                     KC_PGUP, KC_Y,    KC_U,     KC_I,    KC_O,    KC_P,    NO_ARNG,
+        	     XXXXXXX,  KC_A,    KC_S,    KC_D,    KC_F,     KC_G,  KC_END,                                      KC_PGDN, KC_H,    KC_J,     KC_K,    KC_L,    NO_OSTR, NO_AE,
+                 KC_LSFT,  KC_Z,    KC_X,    KC_C,    KC_V,     KC_B,  KC_MUTE,  KC_HYPR,                  KC_INS,  XXXXXXX, KC_N,    KC_M,     KC_COMM, KC_DOT,  NO_MINS, NO_QUOT,
+                                             KC_LALT, KC_LCTRL, LTAPL, KC_SPC,   XXXXXXX,                  XXXXXXX, KC_ENT,  LTAPR,   KC_RCTRL, KC_RALT
     ),
 };
 
@@ -338,6 +340,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     tap_code16(NO_BSLS_MAC);
                 } else {
                     tap_code16(NO_BSLS);
+                }
+            }
+            return false;
+            break;
+        case KC_DLRMFIX:
+            if (record->event.pressed) {
+                if (keymap_config.swap_lctl_lgui) {
+                    tap_code16(NO_DLR_MAC);
+                } else {
+                    tap_code16(NO_DLR);
                 }
             }
             return false;

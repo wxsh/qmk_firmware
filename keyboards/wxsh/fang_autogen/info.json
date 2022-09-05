@@ -7,17 +7,28 @@
     "debounce": 5,
     "features": {
         "bootmagic": true,
-        "backlight": false,
         "encoder": true,
         "mousekey": true,
         "extrakey": true,
-        "nkro": true
+        "nkro": true,
+        "rgblight": true,
+        "wpm": true
     },
     "split": {
         "enabled": true,
         "usb_detect": {
             "enabled": true
           }
+    },
+    "rgblight": {
+        "led_count": 8,
+        "pin": "GP0",
+        "hue_steps": 10,
+        "saturation_steps": 17,
+        "brightness_steps": 17,
+        "animations": {
+            "all": true
+        }
     },
     "matrix_pins": {
         "cols": ["GP27", "GP26", "GP18", "GP20", "GP19", "GP10", "GP9"],

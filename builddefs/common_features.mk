@@ -742,6 +742,10 @@ ifeq ($(strip $(OLED_ENABLE)), yes)
             SRC += ssd1306_sh1106.c
             QUANTUM_LIB_SRC += i2c_master.c
         endif
+	ifeq ($(strip $(OLED_DRIVER)), SH1107)
+            SRC += sh1107.c
+            QUANTUM_LIB_SRC += i2c_master.c
+    	endif
     endif
 endif
 
